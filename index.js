@@ -34,10 +34,6 @@ let data
 
 const getData = async () => {
     try {
-        if (!browser)
-            browser = await startBrowser()
-        if (!page)
-            page = await scraperController(browser)
         data = await scrapers.scraperTitle(page)
         return data
     } catch (error) {
@@ -69,21 +65,31 @@ const sendMessageToTele = (title, data) => {
 }
 
 setInterval(async() => {
-    dataPresent = await getData()
-    if(dataPresent){
-        if (dataPresent.title.length > 0  && dataPresent.number.length > 0){
-            if (prevData.title != dataPresent.title){
-                prevData.title = dataPresent.title
-                prevData.number = dataPresent.number
-                const data = handleChangeData(dataPresent)
-                if (data.message != undefined || data.isSuccess != undefined){
-                  sendMessageToTele(dataPresent.title, data)
+    if (browser && page){
+        dataPresent = await getData()
+        if(dataPresent){
+            if (dataPresent.title.length > 0  && dataPresent.number.length > 0){
+                if (prevData.title != dataPresent.title){
+                    prevData.title = dataPresent.title
+                    prevData.number = dataPresent.number
+                    const data = handleChangeData(dataPresent)
+                    if (data.message != undefined || data.isSuccess != undefined){
+                      sendMessageToTele(dataPresent.title, data)
+                    }
+    
                 }
-
             }
         }
     }
 }, 10000)
+
+const runBrowser = async() => {
+    if (!browser)
+        browser = await startBrowser()
+    if (!page)
+        page = await scraperController(browser)
+}
+runBrowser()
 
 
 
