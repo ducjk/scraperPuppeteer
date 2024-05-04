@@ -8,8 +8,7 @@ const scraperController = async (browserInstance) => {
         let browser = await browserInstance
 
         page = await openPage(browser, url)
-        
-        await page.setDefaultTimeout(60000);
+
 
         // let number = scrapers.scraperTitle(page)
 
