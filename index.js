@@ -52,6 +52,22 @@ const prevData = {
 
 let dataPresent
 
+const sendMessageToTele = (title, data) => {
+    let dataString = 'Xo so 45s \n'
+    dataString += `Ma so: ${title}\n`
+                  
+    if (data.isSuccess == true) dataString += `Thang: ${data.totalNumberRepeat} \n`
+    else if(data.isSuccess == false) dataString += `Thua: ${data.totalNumberRepeat} \n`
+                  
+    if (data.message){
+        dataString += data.message
+    }
+
+    console.log('Data string: ', dataString)
+                  
+    bot.sendMessage(idGroup, dataString);
+}
+
 setInterval(async() => {
     dataPresent = await getData()
     if(dataPresent){
@@ -61,17 +77,7 @@ setInterval(async() => {
                 prevData.number = dataPresent.number
                 const data = handleChangeData(dataPresent)
                 if (data.message != undefined || data.isSuccess != undefined){
-                  let dataString = 'Xo so 45s \n'
-                    dataString += `Ma so: ${dataPresent.title}\n`
-                  
-                  if (data.isSuccess == true) dataString += `Thang: ${data.totalNumberRepeat} \n`
-                  else if(data.isSuccess == false) dataString += `Thua: ${data.totalNumberRepeat} \n`
-                  
-                  if (data.message){
-                    dataString += data.message
-                  }
-                  
-                  bot.sendMessage(idGroup, dataString);
+                  sendMessageToTele(dataPresent.title, data)
                 }
 
             }

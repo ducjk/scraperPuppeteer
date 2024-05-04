@@ -71,6 +71,7 @@ const mainFn = (num1, title = '') => {
     result.largeOfNumberRepeat = largeOfNumberRepeat
     result.totalNumberRepeat = totalNumberRepeat
     totalNumberRepeat = 0
+    listOfNumberRepeat.length = 0
   }
 
   
@@ -84,9 +85,12 @@ const mainFn = (num1, title = '') => {
       )
     ) {
       numberOfRepeat++;
-      if (numberOfRepeat == 5) {
+      if (numberOfRepeat == 5 && listOfNumberRepeat[listOfNumberRepeat.length - 1] <= 4) {
         result.message = 'Zô đánh bạn ơi!'
+      }else if (numberOfRepeat == 5 && listOfNumberRepeat[listOfNumberRepeat.length - 1] > 4) {
+        result.message = 'Thua roi do'
       }
+
       if (listOfNumberRepeat[listOfNumberRepeat.length - 1] > 4 && numberOfRepeat <= 4){
         if(numberOfRepeat == 1){
           result.message = 'Đánh x3'
@@ -99,16 +103,15 @@ const mainFn = (num1, title = '') => {
         }
       }
     } else {
-      listOfNumberRepeat.push(numberOfRepeat)
-        if (numberOfRepeat > 4 && listOfNumberRepeat[listOfNumberRepeat.length - 2] > 4) {
+      if (numberOfRepeat > 4 && listOfNumberRepeat[listOfNumberRepeat.length - 1] > 4) {
         totalNumberRepeat = totalNumberRepeat - 72
         result.isSuccess = false
         result.totalNumberRepeat = totalNumberRepeat
-      }else if (numberOfRepeat > 4) {
+      }else if (numberOfRepeat > 4 && listOfNumberRepeat[listOfNumberRepeat.length - 1] <= 4) {
         result.message = 'Đánh được rồi đó. Đánh x1'
       }
 
-      if (listOfNumberRepeat[listOfNumberRepeat.length - 2] > 4 && numberOfRepeat <= 4){
+      if (listOfNumberRepeat[listOfNumberRepeat.length - 1] > 4 && numberOfRepeat <= 4){
         if (numberOfRepeat == 0){
             totalNumberRepeat = totalNumberRepeat + 1
         }else if (numberOfRepeat == 1){
@@ -124,6 +127,7 @@ const mainFn = (num1, title = '') => {
         result.isSuccess = true
         result.totalNumberRepeat = totalNumberRepeat
       }
+      listOfNumberRepeat.push(numberOfRepeat)
 
       numberOfRepeat = 0;
     }
